@@ -122,5 +122,13 @@ def prep_readmes(df, col:str="content_column"):
     return train, validate, test
 
 ################ MAIN FUNCTION #####################
-if __name__ == "__main__":
-    train, validate, test = prep_readmes()
+# def wrangle_readmes():
+#     """
+#     Acquires the Glass door data then preps it. Returns train, validate, and test dataframes
+#     """
+#     glassdoors = pd.read_csv(".csv")
+#     # Perform acquire and then prep the data, store in train, validate, and test dataframes
+#     train, validate, test = prep_readmes(glassdoors, 'readme_content')
+    
+#     # Return train, validate and test
+#     return train, validate, test

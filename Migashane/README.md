@@ -60,7 +60,7 @@ This project involves a comprehensive analysis of employee reviews collected fro
    
 4. Are there instances where reviews express positive sentiments despite lower star ratings or vice versa?
 
-5. Are there any topics that seem to have a stronger association with higher or lower star ratings between all the companies?
+5. 
 
 [Jump to Navigation](#navigation)
 
