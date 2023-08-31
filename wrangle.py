@@ -214,6 +214,8 @@ def wrangle_readmes():
     
     # remove any nuls found in the pros and cons section of the data
     glassdoor = glassdoor.dropna()
+    # get company names
+    glassdoor['name'] = glassdoor['url'].apply(lambda url: url[34: url.find('-Reviews')].replace('-', ' '))
 
     # Perform acquire and then prep the data, store in train, validate, and test dataframes
     train, validate, test = prep_readmes(glassdoor, ["pros", "cons"])
