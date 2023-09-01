@@ -145,6 +145,19 @@ def wrangle_glassdoor():
     glassdoor = glassdoor.dropna()
     # get company names
     # glassdoor['name'] = glassdoor['url'].apply(lambda url: url[34: url.find('-Reviews')].replace('-', ' '))
+    
+    bin_edges = [2.0, 2.9, 3.9, 4.9]
+
+# Define bin labels
+    bin_labels = ['Two', 'Three', 'Four']
+    bin_label_int = [2, 3, 4]
+# Bin the 'Values' column
+    glassdoor['binned_rating'] = pd.cut(glassdoor['rating'], bins=bin_edges, labels=bin_labels)
+    glassdoor['binned_rating_int'] = pd.cut(glassdoor['rating'], bins=bin_edges, labels=bin_label_int)
+
+
+    
+
 
     # Perform acquire and then prep the data, store in train, validate, and test dataframes
     train, validate, test = prep_readmes(glassdoor, ["pros", "cons"])
