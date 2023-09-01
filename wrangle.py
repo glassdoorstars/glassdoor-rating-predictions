@@ -136,6 +136,9 @@ def clean_strings(string):
     
     # Remove unwanted characters and put string in lowercase
     string = re.sub(r"[^\w0-9'\s]", '', string).lower()
+    
+    # Tokenize the string
+    string = ToktokTokenizer().tokenize(string, return_str = True)
             
     return string
 
