@@ -25,77 +25,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 ############## ACQUISITION FUNCTIONS ########################
-def selenium_scrap():
-    for step in range(100, 103):
-        data = []
-
-        for page_number in range(1):
-
-            url = f"https://www.glassdoor.com/Reviews/index.htm?overall_rating_low=1&page={step}&locId=1&locType=N&locName=United%20States&filterType=RATING_OVERALL"
-            # access company page
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service = service)
-            driver.get(url)
-            review_links = driver.find_elements(By.XPATH, '//span[@class="css-u9lko5 euttuq60"]')
-            # Find employer name tags
-            # Find employer rating tags
-
-
-            review_urls = []
-            for ele in driver.find_elements(By.XPATH, '//a[@data-test="cell-Reviews-url"]'):
-                review_urls.append(ele.get_attribute("href"))
-            # Create a list to store data
-
-            # Initialize webdriver service
-            # Loop through company URLs
-            for i, review_url in enumerate(review_urls):
-                company_data = {'url': review_url,
-                                'pros': '',
-                                'cons': ''}
-                for i in range(10):
-                    driver = webdriver.Chrome(service=service)
-                    driver.get(review_url)
-                    # Extract pros and cons
-                    pros = [pro.text for pro in driver.find_elements(By.XPATH, "//span[@data-test='pros']")]
-                    cons = [con.text for con in driver.find_elements(By.XPATH, "//span[@data-test='cons']")]
-                    # Add to company_data
-                    company_data['pros'] += ' '.join(pros)
-                    company_data['cons'] += ' '.join(cons)
-                    try:
-                        # Try to click the pagination next button
-                        pagination_next = driver.find_element(By.XPATH, '//button[@data-test="pagination-next"]')
-                        pagination_next.click()
-                        next_url = driver.current_url
-                    except:
-                        # If there's no next page, break the loop
-                        print('error')
-                        break
-                    driver.quit()
-                data.append(company_data)
-        # Create a DataFrame from the collected data
-        df = pd.DataFrame(data)
-        csv_filename = f'./data_files/part3_{step}.csv'  # Change this to your desired filename
-        df.to_csv(csv_filename, index=False)
-        print(step)
-        time.sleep(300)
-        
-def combine_all_files():
-    data_frames = []
-    data_folder = os.listdir("./data_folder")
-
-    for folder in data_folder:
-        folder_path = os.path.join('./data_folder', folder)
-        parts = [".DS_Store", ".ipynb_checkpoints"]
-        if folder not in parts:
-            files = pd.Series(os.listdir(folder_path))
-            for ele in files:
-                if ele.endswith(".csv"):
-                    df = pd.read_csv(f"./data_folder/{folder}/{ele}")
-                    data_frames.append(df)
-
-    combined_df = pd.concat(data_frames, ignore_index=True)
-    combined_df.to_csv("glassdoor_full.csv", mode= "w")
-    return combined_df
 
 
 ############### PREPARATION FUNCTIONS #######################
@@ -206,16 +135,16 @@ def prep_readmes(df, cols:str=[]):
     return train, validate, test
 
 ################ MAIN FUNCTION #####################
-def wrangle_readmes():
+def wrangle_glassdoor():
     """
     Acquires the Glass door data then preps it. Returns train, validate, and test dataframes
     """
-    glassdoor = combine_all_files()
+    glassdoor = pd.read_csv("./data/glassdoor_reviews.csv")
     
     # remove any nuls found in the pros and cons section of the data
     glassdoor = glassdoor.dropna()
     # get company names
-    glassdoor['name'] = glassdoor['url'].apply(lambda url: url[34: url.find('-Reviews')].replace('-', ' '))
+    # glassdoor['name'] = glassdoor['url'].apply(lambda url: url[34: url.find('-Reviews')].replace('-', ' '))
 
     # Perform acquire and then prep the data, store in train, validate, and test dataframes
     train, validate, test = prep_readmes(glassdoor, ["pros", "cons"])
