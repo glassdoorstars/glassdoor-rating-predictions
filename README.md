@@ -110,7 +110,7 @@ Modeling:
 
 | Column         | Description                                 |
 |-----------------|---------------------------------------------|
-| url            | where to locate the webpage on internet                     |
+| url            | where to locate the webpage on internet      |
 | pros       | the pros to the reviews for the company     |
 | cons | the cons to the reviews for the company                |
 | name     | name of the company    |
