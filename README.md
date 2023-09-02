@@ -72,7 +72,7 @@ Test data is separated to test ML regression models later in the project.
 
 - Accuracy for the Baseline model was --
 
-**Best Regression Model: Logistic Regression**
+**Best Regression Model: ----------- **
 
 - Model predictions are off by about 6 wins, on average, and explain 77% of the variance.
 
