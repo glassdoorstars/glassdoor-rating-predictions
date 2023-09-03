@@ -128,8 +128,7 @@ def join_ratings_and_reviews(reviews, ratings):
 
 def clean_strings(string):
     """
-    This function puts a string in lowercase,
-    normalizes any unicode characters, removes anything that         
+    This function puts a string in lowercase, normalizes any unicode characters, removes anything that         
     isn't an alphanumeric symbol or single quote.
     """
     # Normalize unicode characters
@@ -145,8 +144,7 @@ def clean_strings(string):
 
 def lemmatize(string):
     """
-    This function takes in a string, lemmatizes each word,
-    and returns a lemmatized version of the orignal string
+    This function takes in a string, lemmatizes each word, and returns a lemmatized version of the orignal string
     """
     # Build the lemmatizer
     lemmatizer = nltk.stem.WordNetLemmatizer()
@@ -164,10 +162,8 @@ def lemmatize(string):
 
 def remove_stopwords(string, extra_words=None, exclude_words=None):
     """
-    Takes in a string, with optional arguments for words to add
-    to stock stopwords and words to ignore in the 
-    stock list removes the stopwords, and returns
-    a stopword free version of the original string
+    Takes in a string, with optional arguments for words to add to stock stopwords and words to ignore in the 
+    stock list removes the stopwords, and returns a stopword free version of the original string
     """
     # Get the list of stopwords from nltk
     stopword_list = stopwords.words('english')
@@ -219,10 +215,10 @@ def prepare_data(df, text_cols):
     # iterate through text columns
     for col in text_cols:
         # clean text
-        df[f'{col}_cleaned'] = df[col].apply(lambda x: remove_stopwords((clean_strings(x)))
+        df[f'{col}_cleaned'] = df[col].apply(lambda x: clean_strings(x))
         # lemmatize text
         df[f'{col}_lemmatized'] = df[f'{col}_cleaned'].apply(lambda x:
-                                                             lemmatize(x))
+                                                             lemmatize(remove_stopwords(x)))
     
     # Return train, validate, and test dataframes
     return df
@@ -258,3 +254,4 @@ def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
     return train, validate, test
 
 ################ Main Function #####################
+
