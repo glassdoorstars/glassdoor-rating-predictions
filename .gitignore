@@ -4,3 +4,5 @@
 __pycache__
 *.json
 *.xlsx
+four_star_tf_idf_scores.csv
+three_star_tf_idf_scores.csv
