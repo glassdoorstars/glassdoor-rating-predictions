@@ -228,6 +228,13 @@ def prepare_data(df, text_cols):
     return df
 
 ################ Preparation Functions #####################
+def count_vect(glassdr):
+    vectorizer = CountVectorizer()
+    X_pros = vectorizer.fit_transform(glassdr["pros_lemmatized"])
+    pros_word_df = pd.DataFrame(X_pros.toarray(), columns=["pros_" + word for word in vectorizer.get_feature_names_out()])
+    X_cons = vectorizer.fit_transform(glassdr["cons_lemmatized"])
+    cons_word_df = pd.DataFrame(X_cons.toarray(), columns=["cons_" + word for word in vectorizer.get_feature_names_out()])
+    return pd.concat([pros_word_df, cons_word_df], axis=1)
 
 ################ Main Function #####################
 def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
@@ -250,6 +257,10 @@ def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
     # Bin the 'Values' column
     df['binned_rating'] = pd.cut(df['rating'], bins=bin_edges, labels=bin_labels)
     df['binned_rating_int'] = pd.cut(df['rating'], bins=bin_edges, labels=bin_label_int)
+    
+    df = df[df.binned_rating_int != 2]
+    
+    count_vect(df)
     
     # Split the data
     train, validate, test = split_data(df)
