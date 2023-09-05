@@ -234,7 +234,9 @@ def count_vect(glassdr):
     pros_word_df = pd.DataFrame(X_pros.toarray(), columns=["pros_" + word for word in vectorizer.get_feature_names_out()])
     X_cons = vectorizer.fit_transform(glassdr["cons_lemmatized"])
     cons_word_df = pd.DataFrame(X_cons.toarray(), columns=["cons_" + word for word in vectorizer.get_feature_names_out()])
-    return pd.concat([pros_word_df, cons_word_df], axis=1)
+    df = pd.concat([pros_word_df, cons_word_df], axis=1)
+    df["binned_rating_int"] = glassdr.binned_rating_int.values
+    return df
 
 ################ Main Function #####################
 def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
