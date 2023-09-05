@@ -3,6 +3,11 @@
 import pandas as pd
 import numpy as np
 
+from nltk.util import ngrams
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer
+
 # web scraping
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -204,22 +209,21 @@ def split_data(df, test_size=.20, validate_size=.20, random_state=95):
 
 def prepare_data(df, text_cols):
     """
-    Takes in the dataframe and the text columns that contains the reviews,
+    Takes in the dataframe and the text columns that contain the reviews,
     creates a column of cleaned data, then uses that to
     create a column without stopwords that is lemmatized,
     performs a train-validate-test split, and returns train, validate, and test.
     """
-    # remove any nuls found in the pros and cons section of the data
-    df.dropna(subset = ['pros', 'cons'])
+    # Remove any nulls found in the pros and cons section of the data
+    df.dropna(subset=['pros', 'cons'], inplace=True)
     
-    # iterate through text columns
+    # Iterate through text columns
     for col in text_cols:
-        # clean text
+        # Clean text
         df[f'{col}_cleaned'] = df[col].apply(lambda x: clean_strings(x))
-        # lemmatize text
-        df[f'{col}_lemmatized'] = df[f'{col}_cleaned'].apply(lambda x:
-                                                             lemmatize(remove_stopwords(x)))
-    
+        # Lemmatize text
+        df[f'{col}_lemmatized'] = df[f'{col}_cleaned'].apply(lambda x: lemmatize(remove_stopwords(x)))
+
     # Return train, validate, and test dataframes
     return df
 
