@@ -260,12 +260,11 @@ def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
     
     df = df[df.binned_rating_int != 2]
     
-    count_vect(df)
     
     # Split the data
     train, validate, test = split_data(df)
     
     # Return train, validate and test
-    return train, validate, test
+    return train, validate, test, count_vect(df)
 
 ################ Main Function #####################
