@@ -228,8 +228,28 @@ def prepare_data(df, text_cols):
     return df
 
 ################ Preparation Functions #####################
-def count_vect(glassdr):
+def uni_count_vect(glassdr):
     vectorizer = CountVectorizer()
+    X_pros = vectorizer.fit_transform(glassdr["pros_lemmatized"])
+    pros_word_df = pd.DataFrame(X_pros.toarray(), columns=["pros_" + word for word in vectorizer.get_feature_names_out()])
+    X_cons = vectorizer.fit_transform(glassdr["cons_lemmatized"])
+    cons_word_df = pd.DataFrame(X_cons.toarray(), columns=["cons_" + word for word in vectorizer.get_feature_names_out()])
+    df = pd.concat([pros_word_df, cons_word_df], axis=1)
+    df["binned_rating_int"] = glassdr.binned_rating_int.values
+    return df
+
+def bi_count_vect(glassdr):
+    vectorizer = CountVectorizer(ngram_range=(2, 2))  # Set ngram_range to (3, 3) for trigrams
+    X_pros = vectorizer.fit_transform(glassdr["pros_lemmatized"])
+    pros_word_df = pd.DataFrame(X_pros.toarray(), columns=["pros_" + word for word in vectorizer.get_feature_names_out()])
+    X_cons = vectorizer.fit_transform(glassdr["cons_lemmatized"])
+    cons_word_df = pd.DataFrame(X_cons.toarray(), columns=["cons_" + word for word in vectorizer.get_feature_names_out()])
+    df = pd.concat([pros_word_df, cons_word_df], axis=1)
+    df["binned_rating_int"] = glassdr.binned_rating_int.values
+    return df
+
+def tri_count_vect(glassdr):
+    vectorizer = CountVectorizer(ngram_range=(3, 3))  # Set ngram_range to (3, 3) for trigrams
     X_pros = vectorizer.fit_transform(glassdr["pros_lemmatized"])
     pros_word_df = pd.DataFrame(X_pros.toarray(), columns=["pros_" + word for word in vectorizer.get_feature_names_out()])
     X_cons = vectorizer.fit_transform(glassdr["cons_lemmatized"])
@@ -264,9 +284,11 @@ def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
     
     # Split the data
     train, validate, test = split_data(df)
-    count_vect_train, count_vect_validate, count_vect_test = split_data(count_vect(df))
+    count_vect_train, count_vect_validate, count_vect_test = split_data(uni_count_vect(df))
+    bi_count_vect_train, bi_count_vect_validate, bi_count_vect_test = split_data(bi_count_vect(df))
+    tri_count_vect_train, tri_count_vect_validate, tri_count_vect_test = split_data(tri_count_vect(df))
     
     # Return train, validate and test
-    return train, validate, test, (count_vect_train, count_vect_validate, count_vect_test)
+    return (train, validate, test), (count_vect_train, count_vect_validate, count_vect_test), (bi_count_vect_train, bi_count_vect_validate, bi_count_vect_test),(tri_count_vect_train, tri_count_vect_validate, tri_count_vect_test)
 
 ################ Main Function #####################
