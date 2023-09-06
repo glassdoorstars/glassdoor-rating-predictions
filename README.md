@@ -4,7 +4,7 @@
 
 by Victoire Migashane, Jonathan Ware, and Martin Reyes
 
-<p align="center">
+<p align="left">
   <a href="https://github.com/MigashaneVictoire" target="_blank">
     <img alt="Victoire" src="https://img.shields.io/github/followers/MigashaneVictoire?label=Follow Victoire&style=social" />
   </a>
