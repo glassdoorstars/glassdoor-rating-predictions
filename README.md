@@ -115,6 +115,9 @@ Modeling:
 | cons | the cons to the reviews for the company                |
 | name     | name of the company    |
 | rating            | the overall glassdoor star rating        |
+| ceo_approval | the percent of reviewers that approve the CEO | 
+| recommoended | the percent of reviewers that recommend working for the company | 
+
 
 
 

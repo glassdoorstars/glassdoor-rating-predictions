@@ -210,7 +210,7 @@ def prepare_data(df, text_cols):
     performs a train-validate-test split, and returns train, validate, and test.
     """
     # remove any nuls found in the pros and cons section of the data
-    df = df.dropna()
+    df = df.dropna(text_cols)
     
     # iterate through text columns
     for col in text_cols:
