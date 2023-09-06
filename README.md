@@ -1,124 +1,113 @@
 <a name="top"></a>
 
-# Project: Finding Drivers That Predict Glasswo
+# Predicting Company Success: Analyzing Glassdoor Reviews for Insights
 
-by Jonathan Ware, Martin Reyes, and Victoire Migashane
+by Victoire Migashane, Jonathan Ware, and Martin Reyes
 
+<p align="center">
+  <a href="https://github.com/MigashaneVictoire" target="_blank">
+    <img alt="Victoire" src="https://img.shields.io/github/followers/MigashaneVictoire?label=Follow Victoire&style=social" />
+  </a>
+  <a href="https://github.com/JonathanTWare" target="_blank">
+    <img alt="Fonathan" src="https://img.shields.io/github/followers/JonathanTWare?label=Follow Jonathan&style=social" />
+  </a>
+  <a href="https://github.com/martin-reyes" target="_blank">
+    <img alt="Martin" src="https://img.shields.io/github/followers/martin-reyes?label=Follow Martin&style=social" />
+  </a>
+</p>
 
+## Description
 
-**Description:**
+This project aims to predict Glassdoor company star ratings by analyzing employee reviews, incorporating both the positive and negative aspects. It employs natural language processing and machine learning classification techniques to provide insights, enhance the work environment, increase employee satisfaction, and improve the overall reputation of the company.
 
-In this project, we aim to collect Glassdoor ratings and pros and cons for various companies and develop classification and regression models to predict Glassdoor star scores. The primary goal is to identify quality improvements in workplaces and enhance the representation of companies in the public eye.
+We achieved this by:
 
-**Goals:**
+- Scraping glassdoor.com for companies and company reviews using Selenium.
+- Collecting at least 1000 companies and 100 reviews for each company.
+- Identifying keywords that are deciding factors in a company's score.
+- Creating unigrams, bigrams, and trigrams.
 
-- collect atleast 1000 companies and 100 reviews for each company.
-- predict, using classification and regression, glassdoor star scores for companies.
-- find key words that are deciding factors in a company's score.
+## Goals
+
+Our project's primary objectives were to:
+
+- Predict Glassdoor company star ratings.
+- Analyze the impact of word count on sentiment.
+- Explore correlations between word frequency (tf) and sentiment.
+- Investigate the influence of inverse document frequency (idf) on word sentiment.
+- Determine whether words with higher tf-idf scores tend to have specific sentiments.
+- Assess significant differences in sentiment between different documents or groups of documents.
+- Identify specific words with significantly different sentiment scores compared to the overall sentiment of the documents they appear in.
 
 ## Acquire Data
 
-1. Scraped glassdoor.com for companies and company reviews
-2. After the companies were scraped, each company had 10 pages of reviews scraped as well.
-3. The data is then saved into a [csv file]('glassdoor_reviews.csv').
+We acquired our data through the following steps:
+
+1. Scraped glassdoor.com for companies and company reviews.
+2. Scraped 10 pages of reviews for each company.
+3. Saved the data into a [csv file](glassdoor_reviews.csv).
 
 ## Prepare Data
-1. DF cleaned:
-    1. words were lemmatized
-    2. removed punctuation, numbers, extra whitespaces, long words, accented/special characters, and stopwords
-    3. created unigrams, bigrams, trigrams.
-    
-2. Reviews divided into pros and cons turned into features.
 
+Data preparation involved the following steps:
+
+1. Removed punctuation, numbers, extra whitespaces, long words, accented/special characters, and stopwords.
+2. Tokenized the data.
+3. Lemmatized words.
+4. Created unigrams, bigrams, and trigrams.
+5. Created count vectorization data frames for modeling.
 
 ## Data Exploration (EDA)
 
-Data is split into training and test data. Analysis is performed on training data to avoid bias and data leakage during modeling. 
+Data was split into training, validation, and test datasets to avoid bias and data leakage during modeling. Additional exploration questions included:
 
-Test data is separated to test ML regression models later in the project.
+- Analyzing word distribution differences between different binned star rating categories.
+- Examining sentiment in the pros and cons sections.
+- Assessing the impact of review length on star ratings.
+- Identifying instances of reviews with contradictory sentiments.
+- Discovering words that uniquely identify pros and cons.
 
-**Does word count affect sentiment?**
+## Modeling
 
+We used machine learning classification with accuracy as the evaluation metric. Our baseline model achieved an accuracy of 70%. We utilized various classification models and achieved the following results:
 
+| Model              | Train Accuracy   | Validation Accuracy |
+| :----------------- | --------------- | ------------------- |
+| Decision Tree      | 91%             | 65%                 |
+| Random Forest      | 100%            | 64%                 |
+| KNN                | 74%             | 67%                 |
+| Logistic Regression| 72%             | 67%                 |
+| Naive Bayes        | 69%             | 64%                 |
+| XG Boost           | 80%             | 67%                 |
 
-**Is there a correlation between word frequency (tf) and sentiment?**
-
-
-
-**Does the inverse document frequency (idf) of a word impact its sentiment?**
-
-
-
-**Do words with higher tf-idf scores tend to have a specific sentiment?**
-
-
-
-**Is there a significant difference in sentiment between different documents (doc) or groups of documents?**
-
-
-
-**Do specific words have significantly different sentiment scores compared to the overall sentiment of the documents they appear in?**
-
-
-
-
-
-
-
-
-## Machine Learning Models: NLP and Classification
-
-**Baseline Model**
-
-- Accuracy for the Baseline model was --
-
-**Best Regression Model: ----------- **
-
-- Model predictions are off by about 6 wins, on average, and explain 77% of the variance.
-
-| Model              | Accuracy   |
-| :----------------- | ---------- |
-| Baseline           |  %       |
-| Logistic Regression  |  %      |
-|add more as you go..| %      |
-
+Our best model, Logistic Regression, achieved a test accuracy of 70%, matching our baseline predictions.
 
 ## Conclusion
 
+Our analysis of Glassdoor employee reviews identified work-life balance as the primary key factor for employee satisfaction. The Logistic Regression model performed well on the test dataset, achieving a 70% accuracy score, consistent with our baseline predictions.
+
 ### Summary
 
-Analysis:
-- Statistical tests _____ showed 
-
-Modeling:
-- Baseline accuracy was --% on the training set and --% on validation set.
-- The only model(s) to beat baseline were ---------, which scores were --% on the training set and --% on the validation set.
-
+Our project successfully predicted Glassdoor company star ratings based on employee reviews and highlighted the importance of work-life balance in employee satisfaction.
 
 ### Next Steps
-- 
 
+In future iterations, we plan to:
 
-[Back to top](#top)
-
----
-
-
-<a name="data-dictionary"></a>
+- Identify what doesnt drive company ratings.
+- Explore additional features and data sources to enhance model performance.
+- Investigate the impact of company size, and industry on ratings.
 
 ## Data Dictionary
 
-| Column         | Description                                 |
-|-----------------|---------------------------------------------|
-| url            | where to locate the webpage on internet      |
-| pros       | the pros to the reviews for the company     |
-| cons | the cons to the reviews for the company                |
-| name     | name of the company    |
-| rating            | the overall glassdoor star rating        |
-| ceo_approval | the percent of reviewers that approve the CEO | 
-| recommoended | the percent of reviewers that recommend working for the company | 
-
-
-
+| Column         | Description                                 | Data Type       |
+|-----------------|---------------------------------------------|-----------------|
+| url            | The webpage location on the internet.      | Text or String  |
+| pros           | Pros mentioned in the reviews for the company. | Text or String  |
+| cons           | Cons mentioned in the reviews for the company. | Text or String  |
+| name           | Name of the company.                        | Text or String  |
+| rating         | The overall Glassdoor star rating.         | Numeric (e.g., Decimal or Float) |
+| ceo_approval   | The percentage of reviewers that approve of the CEO. | Numeric (e.g., Integer or Decimal) |
+| recommended    | The percentage of reviewers that recommend working for the company. | Numeric (e.g., Integer or Decimal) |
 
 [Back to top](#top)
