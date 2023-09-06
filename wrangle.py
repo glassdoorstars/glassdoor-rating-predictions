@@ -215,7 +215,7 @@ def prepare_data(df, text_cols):
     performs a train-validate-test split, and returns train, validate, and test.
     """
     # Remove any nulls found in the pros and cons section of the data
-    df.dropna(subset=['pros', 'cons'], inplace=True)
+    df = df.dropna(subset=text_cols)
     
     # Iterate through text columns
     for col in text_cols:
