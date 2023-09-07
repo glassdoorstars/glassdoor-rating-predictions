@@ -210,7 +210,7 @@ def prepare_data(df, text_cols):
     performs a train-validate-test split, and returns train, validate, and test.
     """
     # remove any nuls found in the pros and cons section of the data
-    df = df.dropna(text_cols)
+    df = df.dropna(subset=text_cols)
     
     # iterate through text columns
     for col in text_cols:
@@ -254,4 +254,3 @@ def wrangle_glassdoor(filepath = "./data/glassdoor_reviews.csv"):
     return train, validate, test
 
 ################ Main Function #####################
-
